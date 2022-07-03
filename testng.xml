@@ -1,0 +1,7 @@
+<suite name = "Discounts Suite">
+    <test name = "activate and deactivate discounts">
+        <classes>
+            <class name ="TestCases.activateAndInactivateDiscounts"></class>
+        </classes>
+    </test>
+</suite>
