@@ -25,6 +25,7 @@ public class campaignServicePage extends pageBase{
 
         discountsManagementDropDownList = showShadowRootElement(driver, "document.querySelector(\"body > dash-app\").shadowRoot.querySelector(\"#drawer > div > dash-navigation-menu\").shadowRoot.querySelector(\"div > paper-listbox > dash-submenu:nth-child(2)\")");
         //actions.moveToElement(discountsManagementDropDownList);
+        // We can add a wait until element to be clickable here
         discountsManagementDropDownList.click();
 
         discountsButton = showShadowRootElement(driver, "document.querySelector(\"body > dash-app\").shadowRoot.querySelector(\"#drawer > div > dash-navigation-menu\").shadowRoot.querySelector(\"div > paper-listbox > dash-submenu.iron-selected > paper-listbox > iron-selector > paper-item\")");
