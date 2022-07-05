@@ -16,11 +16,11 @@ node
         // Run the maven build
         if (isUnix())
         {
-            sh "'${mvnHome}/bin/mvn' test -Pregression"
+            sh "'${mvnHome}/bin/mvn' test -Ppom.xml"
         }
         else
         {
-            bat(/"${mvnHome}\bin\mvn" test -Pregression/)
+            bat(/"${mvnHome}\bin\mvn" test -Ppom.xml/)
         }
     }
     stage('Results')
