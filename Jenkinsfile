@@ -1,7 +1,7 @@
 node
 {
     def mvnHome
-    stage('Checkout')
+    stage('Github Checkout')
     {
         // Get code from Github repository
         git 'https://github.com/ahmedetmanjumia/DiscountsAutomationTest.git'
@@ -11,7 +11,7 @@ node
         // **       in the global configuration.
         mvnHome = tool 'MAVEN_HOME'
     }
-    stage('Build')
+    stage('Execute Suites')
     {
         // Run the maven build
         if (isUnix())
@@ -23,9 +23,9 @@ node
             bat(/"${mvnHome}\bin\mvn" test -Pregression/)
         }
     }
-    stage('Results')
+    /*stage('Results')
     {
         junit '**/target/surefire-reports/TEST-*.xml'
         archive 'target/*.jar'
-    }
+    }*/
 }
