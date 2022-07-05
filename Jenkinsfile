@@ -16,7 +16,7 @@ node
         // Run the maven build
         if (isUnix())
         {
-            sh "'${mvnHome}/bin/mvn' test -Pregression"
+            sh "'${mvnHome}/bin/mvn' test -Pregression" //regression is the id of the profile in pom.xml
         }
         else
         {
