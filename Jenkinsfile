@@ -23,9 +23,9 @@ node
             bat(/"${mvnHome}\bin\mvn" test -Pregression/)
         }
     }
-    /*stage('Results')
-    {
-        junit '**/target/surefire-reports/TEST-*.xml'
-        archive 'target/*.jar'
-    }*/
+    //stage('Results')
+    //{
+      //  junit '**/target/surefire-reports/TEST-*.xml'
+        //archive 'target/*.jar'
+    //}
 }
