@@ -16,7 +16,7 @@ node
         // Run the maven build
         if (isUnix())
         {
-            sh "'${mvnHome}/bin/mvn' test -Ppom"
+            sh "'${mvnHome}/bin/mvn' test -Ptestng.xml"
         }
         else
         {
