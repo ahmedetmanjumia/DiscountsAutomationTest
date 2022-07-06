@@ -4,7 +4,7 @@ node
     stage('Github Checkout')
     {
         // Send a message to Slack
-        slackSend color: '#FFFF00', message: 'Build Started'
+        slackSend color: '#FFFF00', message: 'Build No. ${env.BUILD_NUMBER} Started: '
 
         // Get code from Github repository
         git 'https://github.com/ahmedetmanjumia/DiscountsAutomationTest.git'
