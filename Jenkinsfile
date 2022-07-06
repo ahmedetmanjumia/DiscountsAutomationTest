@@ -3,6 +3,9 @@ node
     def mvnHome
     stage('Github Checkout')
     {
+        // Send a message to Slack
+        slackSend color: 'warning', message: 'Build Started'
+
         // Get code from Github repository
         git 'https://github.com/ahmedetmanjumia/DiscountsAutomationTest.git'
 
@@ -23,9 +26,10 @@ node
             bat(/"${mvnHome}\bin\mvn" test -Pregression/)
         }
     }
-    //stage('Results')
-    //{
-      //  junit '**/target/surefire-reports/TEST-*.xml'
-        //archive 'target/*.jar'
-    //}
+    stage('Results')
+    {
+      junit '**/target/surefire-reports/TEST-*.xml'
+      //archive 'target/*.jar'
+      slackSend color: 'good', message: 'Build Finished'
+    }
 }
