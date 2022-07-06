@@ -4,7 +4,7 @@ node
     stage('Github Checkout')
     {
         // Send a message to Slack
-        slackSend color: '#FFFF00', message: "'Build #'${env.BUILD_NUMBER}' Started'"
+        slackSend color: '#FFFF00', message: "Build #${env.BUILD_NUMBER} Started"
         //slackSend color: '#FFFF00', message: 'Build Started'
 
         // Get code from Github repository
@@ -34,7 +34,7 @@ node
     {
       junit '**/target/surefire-reports/TEST-*.xml'
       //archive 'target/*.jar'
-      slackSend color: 'good', message: "'Build #'${env.BUILD_NUMBER}' ended successfully'"
+      slackSend color: 'good', message: "Build #${env.BUILD_NUMBER} ended successfully"
       //slackSend color: '#FF0000', failOnError:true message:"Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
     }
 }
