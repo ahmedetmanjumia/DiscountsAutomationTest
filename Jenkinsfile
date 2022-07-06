@@ -28,13 +28,13 @@ node
         {
             bat(/"${mvnHome}\bin\mvn" test -Pregression/)
         }
-        slackSend color: '#FF0000', failOnError:true message:"Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+        //slackSend color: '#FF0000', failOnError:true message:"Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
     }
     stage('Results')
     {
       junit '**/target/surefire-reports/TEST-*.xml'
       //archive 'target/*.jar'
       slackSend color: 'good', message: "'Build #'${env.BUILD_NUMBER}' ended successfully'"
-      slackSend color: '#FF0000', failOnError:true message:"Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+      //slackSend color: '#FF0000', failOnError:true message:"Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
     }
 }
