@@ -10,7 +10,8 @@ node
         // Get code from Github repository
         git 'https://github.com/ahmedetmanjumia/DiscountsAutomationTest.git'
 
-        slackSend color: '#FF0000', failOnError:true message:"Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+        //slackSend color: '#FF0000', failOnError:true message:"Build failed  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
         // Get the Maven tool.
         // ** NOTE: This 'M3' Maven tool must be configured
         // **       in the global configuration.
