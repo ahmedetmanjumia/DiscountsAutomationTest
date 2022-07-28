@@ -29,4 +29,11 @@ public class dataProvidersClass {
         excelReader er = new excelReader();
         return er.getExcelData("loginData.xlsx",2);
     }
+
+    @DataProvider(name = "PurchaseWithDiscountData")
+    public Object [][] readPurchaseWithDiscountData() throws IOException
+    {
+        excelReader er = new excelReader();
+        return er.getExcelData("purchaseWithDiscountData.xlsx",0);
+    }
 }

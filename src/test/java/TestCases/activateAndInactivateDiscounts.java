@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 public class activateAndInactivateDiscounts extends testBase
 {
-    static loginPage loginPage;
+    static adminUiLoginPage adminUiLoginPage;
     static adminUIHomePage adminUIHomePage;
     static userDetailsPage userDetails;
     static accountJumiaPayPage accountJPayPage;
@@ -16,11 +16,8 @@ public class activateAndInactivateDiscounts extends testBase
 
     @Test(dataProvider = "ExcelData", dataProviderClass = dataProvidersClass.class)
     public static void firstLogin(String userName, String password, String domain, String email, String emailPassword) throws InterruptedException {
-        driver.navigate().to("https://"+userName+":"+password+"@admin-staging-pay.jumia.com."+domain);
-        Assert.assertEquals(driver.getTitle(), "JumiaPay Administration - Login");
-
-        loginPage = new loginPage(driver);
-        loginPage.login(wait, actions, driver, email, emailPassword);
+        adminUiLoginPage = new adminUiLoginPage(driver);
+        adminUiLoginPage.login(userName, password, domain, wait, actions, driver, email, emailPassword);
     }
 
     @Test(dependsOnMethods = "firstLogin", dataProvider = "discountData", dataProviderClass = dataProvidersClass.class)
@@ -32,7 +29,7 @@ public class activateAndInactivateDiscounts extends testBase
         // Check that "User Details" page is opened
         Assert.assertEquals(driver.getTitle(), "User Details");
         userDetails = new userDetailsPage(driver);
-        userDetails.activateOrDeactivateDiscounts(wait, actions, driver);
+        userDetails.activateOrDeactivateDiscounts(wait, actions);
     }
 
     @Test(dependsOnMethods = "activateDiscount", dataProvider = "purchaseData", dataProviderClass = dataProvidersClass.class)
@@ -45,8 +42,8 @@ public class activateAndInactivateDiscounts extends testBase
 
         //Login to JPay
         jPay = new jPayPage(driver);
-        jPay.login(driver, wait, actions, email, emailPassword);
-        jPay.openDiscountsPage(driver, wait, actions);
+        jPay.login(driver, wait, actions, email, emailPassword, domain);
+        jPay.openDiscountsPage(actions, domain);
 
         // Assert that account Jumia pay page is opened
         Assert.assertEquals(driver.getTitle(), "Account JumiaPay");
@@ -57,6 +54,6 @@ public class activateAndInactivateDiscounts extends testBase
 
         // Open Campaign Service Page
         campaignPage = new campaignServicePage(driver);
-        campaignPage.openDiscounts(actions, wait, driver);
+        campaignPage.openDiscounts(actions, wait, driver, domain);
     }
 }

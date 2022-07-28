@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class pageBase
 {
@@ -59,6 +61,12 @@ public class pageBase
         textBox.clear();
         textBox.sendKeys(text);
     }
+    protected static void writeTextWithoutWait(WebElement textBox, WebDriverWait wait, String text)
+    {
+        //wait.until(ExpectedConditions.visibilityOf(textBox));
+        textBox.clear();
+        textBox.sendKeys(text);
+    }
 
     protected static WebElement detectLink(java.util.List<WebElement> elementsList, WebElement targetElement, String elementName)
     {
@@ -103,6 +111,46 @@ public class pageBase
         //System.out.println("Found element tag: "+ element.getTagName());
         
         return element;
+    }
+
+    protected static void scrollToElement(WebElement element, WebDriver driver)
+    {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].scrollIntoView();", element);
+    }
+    protected static void scrollToBottom(WebDriver driver)
+    {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+        // Scroll Down to the bottom of the page
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+    protected static String goToParentWindow(WebDriver driver)
+    {
+        String parentWindow = driver.getWindowHandle();
+        return parentWindow;
+    }
+    protected static Boolean searchInsideTable(WebElement targetTable, String targetCellText)
+    {
+        List<WebElement> allRows = targetTable.findElements(By.tagName("tr"));
+        Boolean cellisExisted = false;
+        for (WebElement row:allRows)
+        {
+            List<WebElement> column = row.findElements(By.tagName("td"));
+            for(WebElement cell:column)
+            {
+                if(cell.getText().contains(targetCellText))
+                {
+                    cellisExisted = true;
+                    break;
+                }
+            }
+            if(cellisExisted == true)
+            {
+                break;
+            }
+        }
+        return cellisExisted;
     }
 
 }
