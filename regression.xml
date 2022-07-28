@@ -2,6 +2,7 @@
     <test name = "activate and deactivate discounts">
         <classes>
             <class name ="TestCases.activateAndInactivateDiscounts"></class>
+            <class name ="TestCases.purchaseWithDiscountScenario"></class>
         </classes>
     </test>
 </suite>

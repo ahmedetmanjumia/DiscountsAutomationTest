@@ -16,29 +16,26 @@ public class jPayPage extends pageBase{
 
     @FindBy(css = "p.sign-in-button")
     WebElement signInButton;
-
     @FindBy(css = "input.mdc-text-field__input.email-input")
     WebElement emailTextBox;
-
     @FindBy(css = "input.mdc-text-field__input.password-input  ")
     WebElement passwordTextBox;
-
     @FindBy(id = "otpCode")
     WebElement otpLabel;
-
     @FindBy(css = "input.mdc-text-field__input")
     WebElement otpFirstCell;
-
     @FindBy(id = "my-account-desktop")
     WebElement accountDropDownList;
-
-    @FindBy(xpath = "/html/body/div/div/div/div[6]/div/div[1]/a/div")
+    //@FindBy(xpath = "/html/body/div/div/div/div[6]/div/div[1]/a/div")
+    @FindBy(xpath = "(//div[@class='v-list__tile__title'][contains(.,'Jumia Store credit')])[2]")
     WebElement jumiaStoreCreditButton;
+    //@FindBy(xpath = "/html/body/div/div/div/div[4]/div/div[1]/a/div")
+    @FindBy(xpath = "(//div[@class='v-list__tile__title'][contains(.,'Jumia Store credit')])[2]")
+    WebElement jumiaStoreCreditNGButton;
+    @FindBy(id = "btn-remind-me-later")
+    WebElement remindMeLaterButton;
 
-    //@FindBy(css = "div.v-list.theme--light")
-    //WebElement accountDropDownListItems;
-
-    public void login(WebDriver driver, WebDriverWait wait, Actions actions, String email, String emailPassword)
+    public void login(WebDriver driver, WebDriverWait wait, Actions actions, String email, String emailPassword, String domain)
     {
         moveAndClick(signInButton, actions);
 
@@ -61,10 +58,25 @@ public class jPayPage extends pageBase{
 
         actions.moveToElement(otpFirstCell);
         otpFirstCell.sendKeys(otp);
+
+        // Check existence of "Remind me later" button, is existed, then click on it
+        //Boolean remindMeLaterExistence = remindMeLaterButton.isDisplayed();
+        //if(remindMeLaterExistence == true)
+        if(domain.equals("ng"))
+        {
+            moveAndClick(remindMeLaterButton, actions);
+        }
     }
 
-    public void openDiscountsPage(WebDriver driver, WebDriverWait wait, Actions actions) {
+    public void openDiscountsPage(Actions actions, String domain) {
         moveAndClick(accountDropDownList, actions);
-        moveAndClick(jumiaStoreCreditButton, actions);
+        //if(domain == "eg")
+        //{
+            moveAndClick(jumiaStoreCreditButton, actions);
+        //}
+        //else // For Nigeria
+        //{
+          //  moveAndClick(jumiaStoreCreditNGButton, actions);
+        //}
     }
 }

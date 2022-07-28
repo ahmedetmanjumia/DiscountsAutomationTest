@@ -13,15 +13,22 @@ public class campaignServicePage extends pageBase{
     }
 
     WebElement discountsManagementDropDownList;
-
     WebElement discountsButton;
-
     WebElement firstDiscountRow;
+    WebElement firstDiscountName;
 
-    public void openDiscounts(Actions actions, WebDriverWait wait, WebDriver driver) throws InterruptedException {
-        Thread.sleep(5000);
+    public void openDiscounts(Actions actions, WebDriverWait wait, WebDriver driver, String domain) throws InterruptedException {
+        Thread.sleep(10000);
+        if (domain == "eg")
+        {
+            discountsManagementDropDownList = showShadowRootElement(driver, "document.querySelector(\"body > dash-app\").shadowRoot.querySelector(\"#drawer > div > dash-navigation-menu\").shadowRoot.querySelector(\"div > paper-listbox > dash-submenu:nth-child(2)\")");
+        }
+        else // for Nigeria
+        {
+            discountsManagementDropDownList = showShadowRootElement(driver, "document.querySelector(\"body > dash-app\").shadowRoot.querySelector(\"#drawer > div > dash-navigation-menu\").shadowRoot.querySelector(\"div > paper-listbox > dash-submenu:nth-child(2) > paper-item > div\")");
 
-        discountsManagementDropDownList = showShadowRootElement(driver, "document.querySelector(\"body > dash-app\").shadowRoot.querySelector(\"#drawer > div > dash-navigation-menu\").shadowRoot.querySelector(\"div > paper-listbox > dash-submenu:nth-child(2)\")");
+        }
+        wait.until(ExpectedConditions.visibilityOf(discountsManagementDropDownList));
         actions.moveToElement(discountsManagementDropDownList);
         discountsManagementDropDownList.click();
 
@@ -35,6 +42,10 @@ public class campaignServicePage extends pageBase{
         wait.until(ExpectedConditions.visibilityOf(firstDiscountRow));
         actions.moveToElement(firstDiscountRow);
         Assert.assertTrue(firstDiscountRow.isDisplayed());
-
+    }
+    public void checkDiscountStatus(String discountName, WebDriver driver)
+    {
+        firstDiscountName = showShadowRootElement(driver, "document.querySelector(\"body > dash-app\").shadowRoot.querySelector(\"#drawerLayout > iron-pages > discounts-list\").shadowRoot.querySelector(\"dash-list\").shadowRoot.querySelector(\"paper-material > div > paper-datatable-api\").shadowRoot.querySelector(\"table > tbody > tr:nth-child(1) > td:nth-child(2) > dash-list-cell-content\")");
+        Assert.assertEquals(firstDiscountName.getText(), discountName);
     }
 }
