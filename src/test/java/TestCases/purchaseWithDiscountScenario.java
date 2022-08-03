@@ -100,7 +100,7 @@ public class purchaseWithDiscountScenario extends testBase
 
         // Ensure that the discount applied on the purchase process
         jumiaCentralAuthenticationPage = new jumiaCentralAuthenticationPage(driver);
-        jumiaCentralAuthenticationPage.login(driver, wait, testCustomerEmail, testCustomerPassword, actions);
+        jumiaCentralAuthenticationPage.login(driver, wait, testCustomerEmail, testCustomerPassword, domain, verificationCode, actions);
         jumiaCentralAuthenticationPage.checkAmountAfterDiscount(price, quantity);
     }
 }
