@@ -22,8 +22,10 @@ public class jumiaCentralAuthenticationPage extends pageBase{
     WebElement orderTotalLabel;
     @FindBy(css = "div.phs.discount-amount")
     WebElement paymentDiscountLabel;
+    @FindBy(xpath = "//input[@id='SMSOTP']")
+    WebElement verificationCodeTextBox;
 
-    public void login(WebDriver driver, WebDriverWait wait, String testCustomerEmail, String testCustomerPassword, Actions actions) throws InterruptedException {
+    public void login(WebDriver driver, WebDriverWait wait, String testCustomerEmail, String testCustomerPassword, String domain, String verificationCode, Actions actions) throws InterruptedException {
 
         goToTab(driver, 6, "Jumia Central Authentication");
         wait.until(ExpectedConditions.titleContains("Jumia Central Authentication"));
@@ -36,6 +38,18 @@ public class jumiaCentralAuthenticationPage extends pageBase{
         writeText(passwordTextBox, wait, testCustomerPassword);
         Thread.sleep(3000);
         passwordTextBox.sendKeys(Keys.ENTER);
+
+        // Enter Verifacation code
+        /*System.out.println("Enter Verification Code");
+        System.out.println("Domain is: "+domain);
+        if (domain.equals("ng"))
+        {
+            System.out.println("Verification Code Before Replacing: "+verificationCode);
+            verificationCode = verificationCode.replaceAll("\"", "");
+            System.out.println("Verification Code After Replacing: "+verificationCode);
+            writeText(verificationCodeTextBox, wait, verificationCode);
+            verificationCodeTextBox.sendKeys(Keys.ENTER);
+        }*/
 
         Thread.sleep(10000);
         goToTab(driver, 6, "JumiaPay");
