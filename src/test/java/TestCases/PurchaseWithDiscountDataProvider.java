@@ -15,7 +15,7 @@ public class PurchaseWithDiscountDataProvider {
         excelReader er = new excelReader();
         return er.getExcelData("purchaseWithDiscountData.xlsx",0);
     }
-    @DataProvider(name = "PurchaseWithDiscountData1")
+    /*@DataProvider(name = "PurchaseWithDiscountData1")
     public Object [][] readDiscountsData() throws IOException
     {
         excelReader er = new excelReader();
@@ -33,5 +33,5 @@ public class PurchaseWithDiscountDataProvider {
     public Object[][] readJumiaPayBusinessData() throws IOException {
         excelReader er = new excelReader();
         return er.getExcelData("purchaseWithDiscountData.xlsx", 3);
-    }
+    }*/
 }

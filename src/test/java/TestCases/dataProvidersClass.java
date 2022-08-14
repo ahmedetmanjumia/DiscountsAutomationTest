@@ -10,13 +10,13 @@ import java.io.IOException;
 public class dataProvidersClass {
 
     @DataProvider(name = "ExcelData")
-    public Object [][] readuserRegisterData() throws IOException
+    public static Object [][] readuserRegisterData() throws IOException
     {
         excelReader er = new excelReader();
         return er.getExcelData("loginData.xlsx",0);
     }
 
-    @DataProvider(name = "discountData")
+    /*@DataProvider(name = "discountData")
     public Object [][] readDiscountsData() throws IOException
     {
         excelReader er = new excelReader();
@@ -28,7 +28,7 @@ public class dataProvidersClass {
     {
         excelReader er = new excelReader();
         return er.getExcelData("loginData.xlsx",2);
-    }
+    }*/
 
     @DataProvider(name = "PurchaseWithDiscountData")
     public Object [][] readPurchaseWithDiscountData() throws IOException

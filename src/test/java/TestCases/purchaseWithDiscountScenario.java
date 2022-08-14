@@ -20,24 +20,21 @@ public class purchaseWithDiscountScenario extends testBase
 
 
     @Test(dataProvider = "PurchaseWithDiscountData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
-    public static void firstLogin(String userName, String password, String domain, String email, String emailPassword) throws InterruptedException {
+    public static void purchaseWithDiscount(String userName, String password, String domain, String email, String emailPassword, String searchEmail, String searchEmailPassword, String discountName, String testCustomerEmail, String price, String quantity, String testCustomerPassword, String actualShopKey, String verificationCode) throws InterruptedException {
         adminUiLoginPage = new adminUiLoginPage(driver);
         adminUiLoginPage.login(userName, password, domain, wait, actions, driver, email, emailPassword);
         //Thread.sleep(5000);
-    }
-    @Test(dependsOnMethods = "firstLogin", dataProvider = "PurchaseWithDiscountData1", dataProviderClass = PurchaseWithDiscountDataProvider.class)
-    public static void activateDiscount(String email) throws InterruptedException {
+
+        // activateDiscount
         adminUIHomePage = new adminUIHomePage(driver);
-        adminUIHomePage.activateDiscount(wait, actions, driver, email);
+        adminUIHomePage.activateDiscount(wait, actions, driver, searchEmail);
 
         // Check that "User Details" page is opened
         Assert.assertEquals(driver.getTitle(), "User Details");
         userDetails = new userDetailsPage(driver);
         userDetails.activateOrDeactivateDiscounts(wait, actions);
-    }
 
-    @Test(dependsOnMethods = "activateDiscount", dataProvider = "purchaseData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
-    public static void openDiscountsPage(String email, String domain, String userName, String password, String emailPassword, String discountName) throws InterruptedException {
+        //openDiscountsPage
         // Open a new tab and go to MSA (Merchant Service Area) (Staging - jumia Pay)
         driver.switchTo().newWindow(WindowType.TAB);
         driver.navigate().to("https://"+userName+":"+password+"@staging-pay.jumia.com."+domain);
@@ -45,7 +42,7 @@ public class purchaseWithDiscountScenario extends testBase
 
         //Login to JPay
         jPay = new jPayPage(driver);
-        jPay.login(driver, wait, actions, email, emailPassword, domain);
+        jPay.login(driver, wait, actions, searchEmail, searchEmailPassword, domain);
         jPay.openDiscountsPage(actions, domain);
 
         // Assert that account Jumia pay page is opened
@@ -68,12 +65,10 @@ public class purchaseWithDiscountScenario extends testBase
 
         // Get First Discount name
         campaignPage.checkDiscountStatus(discountName, driver);
-    }
 
-    @Test(dependsOnMethods = "openDiscountsPage", dataProvider = "jumiaPayBusinessData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
-    public static void purchaseWithDiscount(String username, String password, String domain, String email, String emailPassword, String testCustomerEmail, String price, String quantity, String testCustomerPassword, String actualShopKey, String verificationCode) throws InterruptedException {
+        //purchaseWithDiscount
         driver.switchTo().newWindow(WindowType.TAB);
-        driver.navigate().to("https://"+username+":"+password+"@business-staging-pay.jumia.com."+domain);
+        driver.navigate().to("https://"+userName+":"+password+"@business-staging-pay.jumia.com."+domain);
         Assert.assertTrue(driver.getTitle().contains("JumiaPay Business"));
 
         // Login as Jumia Pay Employee
@@ -81,7 +76,7 @@ public class purchaseWithDiscountScenario extends testBase
         jumiaPayBusinessPage.loginAsJumiaEmployee(driver, actions, wait);
 
         // Login with HTACCESS credentials
-        jumiaPayBusinessPage.loginWithHtaccessCredentails(driver, username, password, 4);
+        jumiaPayBusinessPage.loginWithHtaccessCredentails(driver, userName, password, 4);
 
         // Copy Shop Key
         jumiaPayBusinessHomePage = new jumiaPayBusinessHomePage(driver);
@@ -89,7 +84,7 @@ public class purchaseWithDiscountScenario extends testBase
 
         // Open Pay tool
         driver.switchTo().newWindow(WindowType.TAB);
-        driver.navigate().to("https://"+username+":"+password+"@tools-pay.jumia.com/");
+        driver.navigate().to("https://"+userName+":"+password+"@tools-pay.jumia.com/");
         Assert.assertTrue(driver.getTitle().contains("Pay tools"));
 
         // Purchase from shop with discount

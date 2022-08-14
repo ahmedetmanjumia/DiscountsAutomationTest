@@ -15,26 +15,20 @@ public class activateAndInactivateDiscounts extends testBase
     static  campaignServicePage campaignPage;
 
     @Test(dataProvider = "ExcelData", dataProviderClass = dataProvidersClass.class)
-    public static void firstLogin(String userName, String password, String domain, String email, String emailPassword) throws InterruptedException {
+    public static void activateDiscount(String userName, String password, String domain, String email, String emailPassword, String searchEmail, String searchEmailPassword) throws InterruptedException {
         adminUiLoginPage = new adminUiLoginPage(driver);
         adminUiLoginPage.login(userName, password, domain, wait, actions, driver, email, emailPassword);
-    }
 
-    @Test(dependsOnMethods = "firstLogin", dataProvider = "discountData", dataProviderClass = dataProvidersClass.class)
-    public static void activateDiscount(String email) throws InterruptedException {
-
+        // activateDiscount
         adminUIHomePage = new adminUIHomePage(driver);
-        adminUIHomePage.activateDiscount(wait, actions, driver, email);
+        adminUIHomePage.activateDiscount(wait, actions, driver, searchEmail);
 
         // Check that "User Details" page is opened
         Assert.assertEquals(driver.getTitle(), "User Details");
         userDetails = new userDetailsPage(driver);
         userDetails.activateOrDeactivateDiscounts(wait, actions);
-    }
 
-    @Test(dependsOnMethods = "activateDiscount", dataProvider = "purchaseData", dataProviderClass = dataProvidersClass.class)
-    public static void openDiscountsPage(String email, String domain, String userName, String password, String emailPassword) throws InterruptedException {
-        //actions.keyDown(Keys.CONTROL).sendKeys(Keys.).build().perform();
+        //openDiscountsPage
         // Open a new tab and go to MSA (Merchant Service Area) (Staging - jumia Pay)
         driver.switchTo().newWindow(WindowType.TAB);
         driver.navigate().to("https://"+userName+":"+password+"@staging-pay.jumia.com."+domain);
@@ -42,7 +36,7 @@ public class activateAndInactivateDiscounts extends testBase
 
         //Login to JPay
         jPay = new jPayPage(driver);
-        jPay.login(driver, wait, actions, email, emailPassword, domain);
+        jPay.login(driver, wait, actions, searchEmail, searchEmailPassword, domain);
         jPay.openDiscountsPage(actions, domain);
 
         // Assert that account Jumia pay page is opened
@@ -55,5 +49,6 @@ public class activateAndInactivateDiscounts extends testBase
         // Open Campaign Service Page
         campaignPage = new campaignServicePage(driver);
         campaignPage.openDiscounts(actions, wait, driver, domain);
+
     }
 }
