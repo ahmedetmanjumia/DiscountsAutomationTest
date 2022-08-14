@@ -10,7 +10,7 @@ import java.io.IOException;
 public class dataProvidersClass {
 
     @DataProvider(name = "ExcelData")
-    public Object [][] readuserRegisterData() throws IOException
+    public static Object [][] readuserRegisterData() throws IOException
     {
         excelReader er = new excelReader();
         return er.getExcelData("loginData.xlsx",0);
