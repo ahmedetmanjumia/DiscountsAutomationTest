@@ -53,6 +53,9 @@ public class adminUiLoginPage extends pageBase
 
         // Send Push
         clickOnButton(oktaSendPushButton, wait, action);
+        //wait.until(ExpectedConditions.titleContains("https://"));
+        wait.until(ExpectedConditions.urlContains("https://admin-staging-pay.jumia.com"));
+        driver.navigate().to("https://"+userName+":"+password+"@admin-staging-pay.jumia.com."+domain);
         wait.until(ExpectedConditions.titleContains("JumiaPay Administration - Login"));
 
         //Assert.assertEquals(driver.getTitle(), "JumiaPay Administration - Login");
