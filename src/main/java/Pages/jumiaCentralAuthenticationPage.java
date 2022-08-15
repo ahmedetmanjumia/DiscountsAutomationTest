@@ -42,14 +42,14 @@ public class jumiaCentralAuthenticationPage extends pageBase{
         // Enter Verifacation code
         /*System.out.println("Enter Verification Code");
         System.out.println("Domain is: "+domain);*/
-        if (domain.equals("ng"))
+        /*if (domain.equals("ng"))
         {
             //System.out.println("Verification Code Before Replacing: "+verificationCode);
             verificationCode = verificationCode.replaceAll("\"", "");
             //System.out.println("Verification Code After Replacing: "+verificationCode);
             writeText(verificationCodeTextBox, wait, verificationCode);
             verificationCodeTextBox.sendKeys(Keys.ENTER);
-        }
+        }*/
 
         Thread.sleep(10000);
         goToTab(driver, 6, "JumiaPay");
