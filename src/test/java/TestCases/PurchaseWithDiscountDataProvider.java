@@ -15,14 +15,14 @@ public class PurchaseWithDiscountDataProvider {
         excelReader er = new excelReader();
         return er.getExcelData("purchaseWithDiscountData.xlsx",0);
     }
-    /*@DataProvider(name = "PurchaseWithDiscountData1")
+    @DataProvider(name = "PurchaseWithDifferentShopData")
     public Object [][] readDiscountsData() throws IOException
     {
         excelReader er = new excelReader();
         return er.getExcelData("purchaseWithDiscountData.xlsx",1);
     }
 
-    @DataProvider(name = "purchaseData")
+    /*@DataProvider(name = "purchaseData")
     public Object [][] readpurchaseData() throws IOException
     {
         excelReader er = new excelReader();

@@ -38,8 +38,14 @@ public class jPayPage extends pageBase{
     public void login(WebDriver driver, WebDriverWait wait, Actions actions, String email, String emailPassword, String domain)
     {
         moveAndClick(signInButton, actions);
-
-        Assert.assertEquals(driver.getTitle(), "My Jumia");
+        if(domain == "eg")
+        {
+            Assert.assertEquals(driver.getTitle(), "My Jumia");
+        }
+        else if (domain == "ng")
+        {
+            Assert.assertEquals(driver.getTitle(), "Jumia");
+        }
         wait.until(ExpectedConditions.visibilityOf(emailTextBox));
         writeText(emailTextBox, wait, email);
         emailTextBox.sendKeys(Keys.ENTER);
