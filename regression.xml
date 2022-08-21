@@ -1,8 +1,8 @@
 <suite name = "Discounts Suite">
     <test name = "activate and deactivate discounts">
         <classes>
-            <class name ="TestCases.activateAndInactivateDiscounts"></class>
             <class name ="TestCases.purchaseWithDiscountScenarios"></class>
+            <class name ="TestCases.activateAndInactivateDiscounts"></class>
         </classes>
     </test>
 </suite>

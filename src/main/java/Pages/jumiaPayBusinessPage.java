@@ -8,8 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import java.util.ArrayList;
-
 public class jumiaPayBusinessPage extends pageBase{
     public jumiaPayBusinessPage(WebDriver driver) {
         super(driver);
@@ -22,7 +20,7 @@ public class jumiaPayBusinessPage extends pageBase{
     @FindBy(css = "div.WBW9sf")
     WebElement existedEmailLabel;
 
-    public void loginAsJumiaEmployee(WebDriver driver, Actions actions, WebDriverWait wait) throws InterruptedException {
+    public void loginAsJumiaEmployee(WebDriver driver, Actions actions, WebDriverWait wait, int tabIndex) throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOf(loginAsJumiaEmployeeLink));
         scrollToBottom(driver);
         Thread.sleep(3000);
@@ -33,7 +31,8 @@ public class jumiaPayBusinessPage extends pageBase{
         moveAndClick(signInWithJumiaButton, actions);
 
         // Choose the already existed google account
-        goToTab(driver, 5, "Google");
+        //goToTab(driver, 5, "Google");
+        goToTab(driver, tabIndex, "Google");
         moveAndClick(existedEmailLabel, actions);
 
         // Sign in with Google
@@ -59,12 +58,13 @@ public class jumiaPayBusinessPage extends pageBase{
         //actions.keyDown(Keys.CONTROL).sendKeys(Keys.).build().perform();
         //System.out.println("loginAsJumiaEmployee Finished");
     }
-    public void loginWithHtaccessCredentails(WebDriver driver, String username, String password, int index) throws InterruptedException {
-        Thread.sleep(5000);
+    /*public void loginWithHtaccessCredentails(WebDriver driver, String username, String password, int index) throws InterruptedException {
+        /*Thread.sleep(5000);
         ArrayList<String> activeTabs = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(activeTabs.get(index));
         String url = driver.getCurrentUrl();
-        url = url.replaceAll("https://", "https://"+username+":"+password+"@");
+        url = url.replaceAllin("https://", "https://"+username+":"+password+"@");
         driver.navigate().to(url);
-    }
+        loginWithHtaccessCredentails(driver, username, password, index);
+    }*/
 }

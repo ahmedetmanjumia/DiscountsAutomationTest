@@ -22,14 +22,14 @@ public class PurchaseWithDiscountDataProvider {
         return er.getExcelData("purchaseWithDiscountData.xlsx",1);
     }
 
-    /*@DataProvider(name = "purchaseData")
+    @DataProvider(name = "PurchaseWithoutDiscountData")
     public Object [][] readpurchaseData() throws IOException
     {
         excelReader er = new excelReader();
         return er.getExcelData("purchaseWithDiscountData.xlsx",2);
     }
 
-    @DataProvider(name = "jumiaPayBusinessData")
+    /*@DataProvider(name = "jumiaPayBusinessData")
     public Object[][] readJumiaPayBusinessData() throws IOException {
         excelReader er = new excelReader();
         return er.getExcelData("purchaseWithDiscountData.xlsx", 3);

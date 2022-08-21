@@ -26,9 +26,10 @@ public class adminUIHomePage extends pageBase{
     @FindBy(xpath = "/html/body/div[2]/div/div/table/tbody/tr/td[3]")
     WebElement emailSearchResultCell;
 
-    public void activateDiscount(WebDriverWait wait, Actions action, WebDriver driver, String email) throws InterruptedException
+    public void activateDiscount(WebDriverWait wait, Actions action, WebDriver driver, String email, int tabIndex) throws InterruptedException
     {
-        goToTab(driver, 0, "JumiaPay Administration");
+        //goToTab(driver, 0, "JumiaPay Administration");
+        goToTab(driver, tabIndex, "JumiaPay Administration");
         wait.until(ExpectedConditions.elementToBeClickable(usersTab));
         clickOnButton(usersTab, wait, action);
 

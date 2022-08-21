@@ -21,12 +21,12 @@ public class activateAndInactivateDiscounts extends testBase
 
         // activateDiscount
         adminUIHomePage = new adminUIHomePage(driver);
-        adminUIHomePage.activateDiscount(wait, actions, driver, searchEmail);
+        adminUIHomePage.activateDiscount(wait, actions, driver, searchEmail, 0);
 
         // Check that "User Details" page is opened
         Assert.assertEquals(driver.getTitle(), "User Details");
         userDetails = new userDetailsPage(driver);
-        userDetails.activateOrDeactivateDiscounts(wait, actions);
+        userDetails.activateDiscounts(wait, actions, domain, driver);
 
         //openDiscountsPage
         // Open a new tab and go to MSA (Merchant Service Area) (Staging - jumia Pay)
