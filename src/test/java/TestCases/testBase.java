@@ -5,8 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 import java.time.Duration;
 
@@ -17,7 +17,9 @@ public class testBase
     public static WebDriverWait wait;
 
     //@BeforeSuite
-    @BeforeClass
+    //@BeforeClass
+    //@BeforeTest
+    @BeforeMethod
     public void openBrowser() throws InterruptedException {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
@@ -28,7 +30,9 @@ public class testBase
     }
 
     //@AfterSuite
-    @AfterClass
+    //@AfterClass
+    //@AfterTest
+    @AfterMethod
     public void closeBrowser() throws InterruptedException {
         Thread.sleep(3000);
         driver.quit();

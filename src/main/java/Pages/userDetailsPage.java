@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -19,6 +20,10 @@ public class userDetailsPage extends pageBase{
     //@FindBy(xpath = "/html/body/div[2]/div/div[1]/div[2]/div[6]/table/tbody/tr[3]/td[1]")
     @FindBy(xpath = "(//td[contains(.,'Discount')])[1]")
     WebElement discountCell;
+    //@FindBy(xpath = "/html/body/div[2]/div/div[1]/div[2]/div[6]/table/tbody/tr[3]/td[1]")
+    WebElement inactiveDiscountCell;
+    //@FindBy(xpath = "/html/body/div[2]/div/div[1]/div[2]/div[6]/table/tbody/tr[2]/td[1]")
+    //WebElement inactiveDiscountCellEg;
     @FindBy(id = "features_button")
     WebElement featuresButton;
     @FindBy(xpath = "//*[@id=\"featuresModal\"]/div/form/div/div[2]/div[2]/div/div/label/span[1]")
@@ -35,10 +40,18 @@ public class userDetailsPage extends pageBase{
     WebElement popupFooter;
     Boolean discountisExisted;
 
-    public void activateOrDeactivateDiscounts(WebDriverWait wait, Actions actions) throws InterruptedException {
+    public void activateDiscounts(WebDriverWait wait, Actions actions, String domain, WebDriver driver) throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOf(balanceTable));
+
+        if (domain.equals("eg"))
+            inactiveDiscountCell = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/div[6]/table/tbody/tr[2]/td[1]"));
+        else if(domain.equals("ng"))
+            inactiveDiscountCell = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/div[6]/table/tbody/tr[3]/td[1]"));
         //discountisExisted = searchInsideTable(balanceTable, "Discount");
-        if (discountCell.getText().contains("Discount"))
+        //if (discountCell.getText().contains("Discount"))
+        discountisExisted = false;
+        System.out.println("Cell text: "+ inactiveDiscountCell.getText());
+        if (inactiveDiscountCell.getText().contains("Discount"))
         {
             discountisExisted = true;
         }
@@ -55,6 +68,45 @@ public class userDetailsPage extends pageBase{
             //Assert.assertTrue(discountisExisted);
             Assert.assertTrue(discountCell.getText().contains("Discount"));
         }
+    }
+
+    public void deactivateDiscounts(WebDriverWait wait, Actions actions, String domain, WebDriver driver) throws InterruptedException {
+        if (domain.equals("eg"))
+            inactiveDiscountCell = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/div[6]/table/tbody/tr[2]/td[1]"));
+        else if(domain.equals("ng"))
+            inactiveDiscountCell = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/div[6]/table/tbody/tr[3]/td[1]"));
+        System.out.println("cell text: "+ inactiveDiscountCell.getText());
+        if(inactiveDiscountCell.getText().contains("Discount")==true) {
+            //wait.until(ExpectedConditions.visibilityOf(balanceTable));
+            //discountisExisted = searchInsideTable(balanceTable, "Discount");
+            //if (discountCell.getText().contains("Discount"))
+            //{
+            //  discountisExisted = true;
+
+            //Open Features popup
+            clickOnButton(featuresButton, wait, actions);
+
+            // Activate discount, then check
+            activateActions(wait, actions);
+            Thread.sleep(3000);
+            System.out.println("Discount is deactivated");
+            //discountisExisted = searchInsideTable(balanceTable, "Discount");
+            //Assert.assertTrue(discountisExisted);
+            if (domain.equals("eg"))
+                inactiveDiscountCell = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/div[6]/table/tbody/tr[2]/td[1]"));
+            else if(domain.equals("ng"))
+                inactiveDiscountCell = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/div[6]/table/tbody/tr[3]/td[1]"));
+
+            System.out.println("inactiveDiscountCell text: "+inactiveDiscountCell.getText());
+            Assert.assertFalse(inactiveDiscountCell.getText().contains("Discount"));
+            System.out.println("deactivateDiscounts finished");
+        }
+        //}
+
+        /*if (discountisExisted == false)
+        {
+
+        }*/
     }
 
     public void activateActions(WebDriverWait wait, Actions actions)

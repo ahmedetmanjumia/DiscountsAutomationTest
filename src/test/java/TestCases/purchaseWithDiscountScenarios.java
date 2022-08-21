@@ -18,7 +18,6 @@ public class purchaseWithDiscountScenarios extends testBase
     static payToolPage payToolPage;
     static jumiaCentralAuthenticationPage jumiaCentralAuthenticationPage;
 
-
     @Test(dataProvider = "PurchaseWithDiscountData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
     public static void purchaseWithDiscount(String userName, String password, String domain, String email, String emailPassword, String searchEmail, String searchEmailPassword, String discountName, String testCustomerEmail, String price, String quantity, String testCustomerPassword, String actualShopKey, String verificationCode) throws InterruptedException {
         adminUiLoginPage = new adminUiLoginPage(driver);
@@ -27,12 +26,12 @@ public class purchaseWithDiscountScenarios extends testBase
 
         // activateDiscount
         adminUIHomePage = new adminUIHomePage(driver);
-        adminUIHomePage.activateDiscount(wait, actions, driver, searchEmail);
+        adminUIHomePage.activateDiscount(wait, actions, driver, searchEmail, 0);
 
         // Check that "User Details" page is opened
         Assert.assertEquals(driver.getTitle(), "User Details");
         userDetails = new userDetailsPage(driver);
-        userDetails.activateOrDeactivateDiscounts(wait, actions);
+        userDetails.activateDiscounts(wait, actions, domain, driver);
 
         //openDiscountsPage
         // Open a new tab and go to MSA (Merchant Service Area) (Staging - jumia Pay)
@@ -73,7 +72,7 @@ public class purchaseWithDiscountScenarios extends testBase
 
         // Login as Jumia Pay Employee
         jumiaPayBusinessPage = new jumiaPayBusinessPage(driver);
-        jumiaPayBusinessPage.loginAsJumiaEmployee(driver, actions, wait);
+        jumiaPayBusinessPage.loginAsJumiaEmployee(driver, actions, wait, 5);
 
         // Login with HTACCESS credentials
         jumiaPayBusinessPage.loginWithHtaccessCredentails(driver, userName, password, 4);
@@ -95,12 +94,80 @@ public class purchaseWithDiscountScenarios extends testBase
 
         // Ensure that the discount applied on the purchase process
         jumiaCentralAuthenticationPage = new jumiaCentralAuthenticationPage(driver);
-        jumiaCentralAuthenticationPage.login(driver, wait, testCustomerEmail, testCustomerPassword, domain, verificationCode, actions);
+        jumiaCentralAuthenticationPage.login(driver, wait, testCustomerEmail, testCustomerPassword, domain, verificationCode, actions, 6);
+        Thread.sleep(3000);
         jumiaCentralAuthenticationPage.checkAmountAfterDiscount(price, quantity);
     }
-    /*@Test(dependsOnMethods = "purchaseWithDiscount", dataProvider = "PurchaseWithDifferentShopData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
-    public static void purchaseWithDifferentShop()
+    //@Test(dependsOnMethods = "purchaseWithDiscount", dataProvider = "PurchaseWithoutDiscountData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
+    @Test(dataProvider = "PurchaseWithDiscountData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
+    //public static void purchaseWithoutDiscount(String testCustomerEmail, String price, String quantity, String testCustomerPassword, String actualShopKey, String verificationCode, String domain) throws InterruptedException
+    public static void purchaseWithoutDiscount(String userName, String password, String domain, String email, String emailPassword, String searchEmail, String searchEmailPassword, String discountName, String testCustomerEmail, String price, String quantity, String testCustomerPassword, String actualShopKey, String verificationCode) throws InterruptedException
     {
+        adminUiLoginPage = new adminUiLoginPage(driver);
+        adminUiLoginPage.login(userName, password, domain, wait, actions, driver, email, emailPassword);
+        //Thread.sleep(5000);
 
+        // activateDiscount
+        adminUIHomePage = new adminUIHomePage(driver);
+        adminUIHomePage.activateDiscount(wait, actions, driver, searchEmail, 0);
+
+        // Check that "User Details" page is opened
+        Assert.assertEquals(driver.getTitle(), "User Details");
+        userDetails = new userDetailsPage(driver);
+        userDetails.deactivateDiscounts(wait, actions, domain, driver);
+        System.out.println("deactivateDiscounts finished");
+
+        //purchaseWithDiscount
+        driver.switchTo().newWindow(WindowType.TAB);
+        driver.navigate().to("https://"+userName+":"+password+"@business-staging-pay.jumia.com."+domain);
+        Assert.assertTrue(driver.getTitle().contains("JumiaPay Business"));
+
+        // Login as Jumia Pay Employee
+        jumiaPayBusinessPage = new jumiaPayBusinessPage(driver);
+        jumiaPayBusinessPage.loginAsJumiaEmployee(driver, actions, wait, 3);
+
+        // Login with HTACCESS credentials
+        jumiaPayBusinessPage.loginWithHtaccessCredentails(driver, userName, password, 2);
+
+        // Copy Shop Key
+        jumiaPayBusinessHomePage = new jumiaPayBusinessHomePage(driver);
+        String shopKey = jumiaPayBusinessHomePage.copyShopKey(wait, actions, actualShopKey);
+
+        // Open Pay tool
+        driver.switchTo().newWindow(WindowType.TAB);
+        driver.navigate().to("https://"+userName+":"+password+"@tools-pay.jumia.com/");
+        Assert.assertTrue(driver.getTitle().contains("Pay tools"));
+
+        // Purchase from shop with discount
+        price = price.replaceAll("\"", "");
+        quantity = quantity.replaceAll("\"", "");
+        payToolPage = new payToolPage(driver);
+        payToolPage.purchaseFromShopWithDiscount(wait, actions, domain, shopKey, testCustomerEmail, price, quantity);
+
+        // Ensure that the discount applied on the purchase process
+        jumiaCentralAuthenticationPage = new jumiaCentralAuthenticationPage(driver);
+        Thread.sleep(3000);
+        Pages.jumiaCentralAuthenticationPage.loginWithHtaccessCredentails(driver, userName, password, 4);
+
+        jumiaCentralAuthenticationPage.login(driver, wait, testCustomerEmail, testCustomerPassword, domain, verificationCode, actions, 4);
+        jumiaCentralAuthenticationPage.checkAmountWithoutDiscount(price, quantity);
+    }
+    /*@Test(dependsOnMethods = "purchaseWithDiscount", dataProvider = "PurchaseWithDifferentShopData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
+    public static void purchaseWithDifferentShop(String price, String quantity, String domain, String shopKey, String testCustomerEmail, String testCustomerPassword, String verificationCode) throws InterruptedException {
+        // Go to the pay tools tab
+        ArrayList<String> activeTabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(activeTabs.get(5));
+        Assert.assertTrue(driver.getTitle().contains("Pay tools"));
+        System.out.println("Current tab title: "+driver.getTitle());
+
+        price = price.replaceAll("\"", "");
+        quantity = quantity.replaceAll("\"", "");
+        payToolPage = new payToolPage(driver);
+        payToolPage.purchaseFromShopWithDiscount(wait, actions, domain, shopKey, testCustomerEmail, price, quantity);
+
+        // Ensure that the discount applied on the purchase process
+        jumiaCentralAuthenticationPage = new jumiaCentralAuthenticationPage(driver);
+        jumiaCentralAuthenticationPage.login(driver, wait, testCustomerEmail, testCustomerPassword, domain, verificationCode, actions, 6);
+        jumiaCentralAuthenticationPage.checkAmountWithoutDiscount(price, quantity);
     }*/
 }

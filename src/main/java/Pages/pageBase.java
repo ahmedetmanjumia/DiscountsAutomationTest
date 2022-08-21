@@ -152,5 +152,13 @@ public class pageBase
         }
         return cellisExisted;
     }
+    public static void loginWithHtaccessCredentails(WebDriver driver, String username, String password, int index) throws InterruptedException {
+        Thread.sleep(5000);
+        ArrayList<String> activeTabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(activeTabs.get(index));
+        String url = driver.getCurrentUrl();
+        url = url.replaceAll("https://", "https://" + username + ":" + password + "@");
+        driver.navigate().to(url);
+    }
 
 }

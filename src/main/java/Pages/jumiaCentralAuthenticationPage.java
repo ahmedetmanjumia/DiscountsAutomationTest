@@ -24,10 +24,13 @@ public class jumiaCentralAuthenticationPage extends pageBase{
     WebElement paymentDiscountLabel;
     @FindBy(xpath = "//input[@id='SMSOTP']")
     WebElement verificationCodeTextBox;
+    @FindBy(xpath = "(//div[contains(.,'From Jumia store credit')])[10]")
+    WebElement jumiaStoreCreditLabel;
 
-    public void login(WebDriver driver, WebDriverWait wait, String testCustomerEmail, String testCustomerPassword, String domain, String verificationCode, Actions actions) throws InterruptedException {
+    public void login(WebDriver driver, WebDriverWait wait, String testCustomerEmail, String testCustomerPassword, String domain, String verificationCode, Actions actions, int browserIndex) throws InterruptedException {
 
-        goToTab(driver, 6, "Jumia Central Authentication");
+        //System.out.println("Login Started");
+        goToTab(driver, browserIndex, "Jumia Central Authentication");
         wait.until(ExpectedConditions.titleContains("Jumia Central Authentication"));
         actions.moveToElement(emailTextBox);
         writeTextWithoutWait(emailTextBox, wait, testCustomerEmail);
@@ -52,7 +55,8 @@ public class jumiaCentralAuthenticationPage extends pageBase{
         }*/
 
         Thread.sleep(10000);
-        goToTab(driver, 6, "JumiaPay");
+        //goToTab(driver, 6, "JumiaPay");
+        goToTab(driver, browserIndex, "JumiaPay");
     }
     public void checkAmountAfterDiscount(String price, String quantity)
     {
@@ -61,5 +65,13 @@ public class jumiaCentralAuthenticationPage extends pageBase{
 
         // Ensure that the discount label is displaying
         Assert.assertTrue(paymentDiscountLabel.getText().contains("Get a discount of"));
+    }
+    public void checkAmountWithoutDiscount(String price, String quantity)
+    {
+        double calculatedTotalPrice = Double.parseDouble(price) * Double.parseDouble(quantity);
+        Assert.assertTrue(orderTotalLabel.getText().contains(Double.toString(calculatedTotalPrice)));
+
+        // Ensure that the discount label is displaying
+        Assert.assertFalse(jumiaStoreCreditLabel.getText().contains("discount"));
     }
 }
