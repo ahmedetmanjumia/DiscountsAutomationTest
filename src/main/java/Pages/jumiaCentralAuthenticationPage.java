@@ -58,20 +58,20 @@ public class jumiaCentralAuthenticationPage extends pageBase{
         //goToTab(driver, 6, "JumiaPay");
         goToTab(driver, browserIndex, "JumiaPay");
     }
-    public void checkAmountAfterDiscount(String price, String quantity)
-    {
+    public void checkAmountAfterDiscount(String price, String quantity) throws InterruptedException {
         double calculatedTotalPrice = Double.parseDouble(price) * Double.parseDouble(quantity);
         Assert.assertTrue(orderTotalLabel.getText().contains(Double.toString(calculatedTotalPrice)));
 
         // Ensure that the discount label is displaying
+        Thread.sleep(3000);
         Assert.assertTrue(paymentDiscountLabel.getText().contains("Get a discount of"));
     }
-    public void checkAmountWithoutDiscount(String price, String quantity)
-    {
+    public void checkAmountWithoutDiscount(String price, String quantity) throws InterruptedException {
         double calculatedTotalPrice = Double.parseDouble(price) * Double.parseDouble(quantity);
         Assert.assertTrue(orderTotalLabel.getText().contains(Double.toString(calculatedTotalPrice)));
 
         // Ensure that the discount label is displaying
+        Thread.sleep(3000);
         Assert.assertFalse(jumiaStoreCreditLabel.getText().contains("discount"));
     }
 }
