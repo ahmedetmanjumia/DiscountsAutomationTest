@@ -64,6 +64,6 @@ public class B2cWalletScenarios extends testBase
 
         singleCreditApprovalPage = new singleCreditApprovalPage(driver);
         singleCreditApprovalPage.approveSingleCredit(wait, actions);
-        System.out.println("test completed!");
+        //System.out.println("test completed!");
     }
 }
