@@ -16,24 +16,29 @@ public class dataProvidersClass {
         return er.getExcelData("loginData.xlsx",0);
     }
 
-    /*@DataProvider(name = "discountData")
-    public Object [][] readDiscountsData() throws IOException
-    {
-        excelReader er = new excelReader();
-        return er.getExcelData("loginData.xlsx",1);
-    }
-
-    @DataProvider(name = "purchaseData")
-    public Object [][] readPurchaseData() throws IOException
-    {
-        excelReader er = new excelReader();
-        return er.getExcelData("loginData.xlsx",2);
-    }*/
-
     @DataProvider(name = "PurchaseWithDiscountData")
     public Object [][] readPurchaseWithDiscountData() throws IOException
     {
         excelReader er = new excelReader();
         return er.getExcelData("purchaseWithDiscountData.xlsx",0);
+    }
+    @DataProvider(name = "PurchaseWithDifferentShopData")
+    public Object [][] readDiscountsData() throws IOException
+    {
+        excelReader er = new excelReader();
+        return er.getExcelData("purchaseWithDiscountData.xlsx",1);
+    }
+
+    @DataProvider(name = "PurchaseWithoutDiscountData")
+    public Object [][] readpurchaseData() throws IOException
+    {
+        excelReader er = new excelReader();
+        return er.getExcelData("purchaseWithDiscountData.xlsx",2);
+    }
+    @DataProvider(name = "createSingleCreditData")
+    public Object [][] readcreateSingleCreditData() throws IOException
+    {
+        excelReader er = new excelReader();
+        return er.getExcelData("B2CData.xlsx",0);
     }
 }

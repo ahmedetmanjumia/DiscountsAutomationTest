@@ -41,7 +41,10 @@ public class adminUiLoginPage extends pageBase
         //driver.navigate().to("https://"+userName+":"+password+"@admin-staging-pay.jumia.com."+domain);
 
         // New login function with Okta verification
-        driver.navigate().to("https://admin-staging-pay.jumia.com."+domain);
+        if(domain.equals("ci"))
+            driver.navigate().to("https://admin-staging-pay.jumia."+domain);
+        else
+            driver.navigate().to("https://admin-staging-pay.jumia.com."+domain);
         wait.until(ExpectedConditions.titleContains("Sign in ・ Cloudflare Access"));
         clickOnButton(jumiaOktaLoginButton, wait, action);
 
@@ -53,12 +56,12 @@ public class adminUiLoginPage extends pageBase
 
         // Send Push
         clickOnButton(oktaSendPushButton, wait, action);
-        //wait.until(ExpectedConditions.titleContains("https://"));
-        wait.until(ExpectedConditions.urlContains("https://admin-staging-pay.jumia.com"));
-        driver.navigate().to("https://"+userName+":"+password+"@admin-staging-pay.jumia.com."+domain);
+        wait.until(ExpectedConditions.urlContains("https://admin-staging-pay.jumia"));
+        if(domain.equals("ci"))
+            driver.navigate().to("https://"+userName+":"+password+"@admin-staging-pay.jumia."+domain);
+        else
+            driver.navigate().to("https://"+userName+":"+password+"@admin-staging-pay.jumia.com."+domain);
         wait.until(ExpectedConditions.titleContains("JumiaPay Administration - Login"));
-
-        //Assert.assertEquals(driver.getTitle(), "JumiaPay Administration - Login");
 
         // Login
         Thread.sleep(3000);

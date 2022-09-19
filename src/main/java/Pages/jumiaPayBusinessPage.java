@@ -19,6 +19,14 @@ public class jumiaPayBusinessPage extends pageBase{
     WebElement signInWithJumiaButton;
     @FindBy(css = "div.WBW9sf")
     WebElement existedEmailLabel;
+    @FindBy(xpath = "(//span[contains(.,'Login')])[2]")
+    WebElement loginButtonCI;
+    @FindBy(xpath = "//input[@id='email']")
+    WebElement loginEmailTextBox;
+    @FindBy(xpath = "//input[@id='password']")
+    WebElement loginPasswordTextBox;
+    @FindBy(xpath = "//input[@id='SMSOTP']")
+    WebElement verificationCodeTextBox;
 
     public void loginAsJumiaEmployee(WebDriver driver, Actions actions, WebDriverWait wait, int tabIndex) throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOf(loginAsJumiaEmployeeLink));
@@ -58,13 +66,17 @@ public class jumiaPayBusinessPage extends pageBase{
         //actions.keyDown(Keys.CONTROL).sendKeys(Keys.).build().perform();
         //System.out.println("loginAsJumiaEmployee Finished");
     }
-    /*public void loginWithHtaccessCredentails(WebDriver driver, String username, String password, int index) throws InterruptedException {
-        /*Thread.sleep(5000);
-        ArrayList<String> activeTabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(activeTabs.get(index));
-        String url = driver.getCurrentUrl();
-        url = url.replaceAllin("https://", "https://"+username+":"+password+"@");
-        driver.navigate().to(url);
-        loginWithHtaccessCredentails(driver, username, password, index);
-    }*/
+    public void login(WebDriver driver, WebDriverWait wait, Actions actions, String email, String verificationCode, String userName, String password, int tabIndex) throws InterruptedException {
+        clickOnButton(loginButtonCI, wait, actions);
+        writeTextAndEnter(loginEmailTextBox, wait, email);
+        writeTextAndEnter(loginPasswordTextBox, wait, email);
+        Thread.sleep(5000);
+        //wait.until(ExpectedConditions.invisibilityOf(loginPasswordTextBox));
+        Boolean isHtLoginNeeded = isHTAccessNeeded(driver, "https://app-business-staging-pay.jumia.");
+        System.out.println("Is HTAccess needed? "+isHtLoginNeeded);
+        if(isHtLoginNeeded == false)
+            writeTextAndEnter(verificationCodeTextBox, wait, verificationCode);
+        Thread.sleep(3000);
+        loginWithHtaccessCredentails(driver, userName, password, tabIndex);
+    }
 }

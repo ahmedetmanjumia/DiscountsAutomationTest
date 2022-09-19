@@ -1,13 +1,11 @@
 package Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +58,13 @@ public class pageBase
         wait.until(ExpectedConditions.visibilityOf(textBox));
         textBox.clear();
         textBox.sendKeys(text);
+    }
+    protected static void writeTextAndEnter(WebElement textBox, WebDriverWait wait, String text)
+    {
+        wait.until(ExpectedConditions.visibilityOf(textBox));
+        textBox.clear();
+        textBox.sendKeys(text);
+        textBox.sendKeys(Keys.ENTER);
     }
     protected static void writeTextWithoutWait(WebElement textBox, WebDriverWait wait, String text)
     {
@@ -152,6 +157,7 @@ public class pageBase
         }
         return cellisExisted;
     }
+
     public static void loginWithHtaccessCredentails(WebDriver driver, String username, String password, int index) throws InterruptedException {
         Thread.sleep(5000);
         ArrayList<String> activeTabs = new ArrayList<String>(driver.getWindowHandles());
@@ -159,6 +165,21 @@ public class pageBase
         String url = driver.getCurrentUrl();
         url = url.replaceAll("https://", "https://" + username + ":" + password + "@");
         driver.navigate().to(url);
+    }
+    public static void openNewTabAndLogin(WebDriver driver, String userName, String password, String url, String domain, String pageTitle)
+    {
+        driver.switchTo().newWindow(WindowType.TAB);
+        url+=domain;
+        url = url.replaceAll("https://", "https://" + userName + ":" + password + "@");
+        driver.navigate().to(url);
+        Assert.assertTrue(driver.getTitle().contains(pageTitle));
+    }
+    public static Boolean isHTAccessNeeded(WebDriver driver, String targetUrl)
+    {
+        Boolean urlIsExisted = false;
+        if(driver.getCurrentUrl().contains(targetUrl))
+            urlIsExisted = true;
+        return urlIsExisted;
     }
 
 }

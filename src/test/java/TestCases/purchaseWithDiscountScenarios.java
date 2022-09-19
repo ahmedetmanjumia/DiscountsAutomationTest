@@ -18,7 +18,7 @@ public class purchaseWithDiscountScenarios extends testBase
     static payToolPage payToolPage;
     static jumiaCentralAuthenticationPage jumiaCentralAuthenticationPage;
 
-    @Test(dataProvider = "PurchaseWithDiscountData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
+    @Test(dataProvider = "PurchaseWithDiscountData", dataProviderClass = dataProvidersClass.class)
     public static void purchaseWithDiscount(String userName, String password, String domain, String email, String emailPassword, String searchEmail, String searchEmailPassword, String discountName, String testCustomerEmail, String price, String quantity, String testCustomerPassword, String actualShopKey, String verificationCode) throws InterruptedException {
         adminUiLoginPage = new adminUiLoginPage(driver);
         adminUiLoginPage.login(userName, password, domain, wait, actions, driver, email, emailPassword);
@@ -99,7 +99,7 @@ public class purchaseWithDiscountScenarios extends testBase
         jumiaCentralAuthenticationPage.checkAmountAfterDiscount(price, quantity);
     }
 
-    @Test(dependsOnMethods = "purchaseWithDiscount", dataProvider = "PurchaseWithDifferentShopData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
+    @Test(dependsOnMethods = "purchaseWithDiscount", dataProvider = "PurchaseWithDifferentShopData", dataProviderClass = dataProvidersClass.class)
     public static void purchaseWithDifferentShop(String userName, String password, String price, String quantity, String domain, String shopKey, String testCustomerEmail, String testCustomerPassword, String verificationCode) throws InterruptedException {
         // Go to the pay tools tab
         //ArrayList<String> activeTabs = new ArrayList<String>(driver.getWindowHandles());
@@ -124,7 +124,7 @@ public class purchaseWithDiscountScenarios extends testBase
         jumiaCentralAuthenticationPage.checkAmountWithoutDiscount(price, quantity);
     }
 
-    @Test(dataProvider = "PurchaseWithDiscountData", dataProviderClass = PurchaseWithDiscountDataProvider.class)
+    @Test(dataProvider = "PurchaseWithDiscountData", dataProviderClass = dataProvidersClass.class)
     public static void purchaseWithoutDiscount(String userName, String password, String domain, String email, String emailPassword, String searchEmail, String searchEmailPassword, String discountName, String testCustomerEmail, String price, String quantity, String testCustomerPassword, String actualShopKey, String verificationCode) throws InterruptedException
     {
         adminUiLoginPage = new adminUiLoginPage(driver);

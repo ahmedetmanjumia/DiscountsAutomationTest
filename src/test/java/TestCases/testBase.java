@@ -16,11 +16,8 @@ public class testBase
     public static Actions actions;
     public static WebDriverWait wait;
 
-    //@BeforeSuite
-    //@BeforeClass
-    //@BeforeTest
     @BeforeMethod
-    public void openBrowser() throws InterruptedException {
+    public static void openBrowser() throws InterruptedException {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -29,9 +26,6 @@ public class testBase
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
     }
 
-    //@AfterSuite
-    //@AfterClass
-    //@AfterTest
     @AfterMethod
     public void closeBrowser() throws InterruptedException {
         Thread.sleep(3000);
