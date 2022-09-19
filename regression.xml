@@ -1,8 +1,9 @@
-<suite name = "Discounts Suite">
-    <test name = "activate and deactivate discounts">
+<suite name = "Regression Suite">
+    <test name = "All Scenarios">
         <classes>
-            <class name ="TestCases.purchaseWithDiscountScenarios"></class>
-            <class name ="TestCases.activateAndInactivateDiscounts"></class>
+            <!--class name ="TestCases.purchaseWithDiscountScenarios"></class>
+            <class name ="TestCases.activateAndInactivateDiscounts"></class-->
+            <class name ="TestCases.B2cWalletScenarios"></class>
         </classes>
     </test>
 </suite>
