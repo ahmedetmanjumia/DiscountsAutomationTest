@@ -37,9 +37,6 @@ public class adminUiLoginPage extends pageBase
     WebElement oktaSendPushButton;
 
     public void login (String userName, String password, String domain, WebDriverWait wait, Actions action, WebDriver driver, String email, String emailPassword) throws InterruptedException {
-        // First Login
-        //driver.navigate().to("https://"+userName+":"+password+"@admin-staging-pay.jumia.com."+domain);
-
         // New login function with Okta verification
         if(domain.equals("ci"))
             driver.navigate().to("https://admin-staging-pay.jumia."+domain);

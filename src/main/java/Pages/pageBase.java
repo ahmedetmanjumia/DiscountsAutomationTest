@@ -174,8 +174,8 @@ public class pageBase
         driver.navigate().to(url);
         Assert.assertTrue(driver.getTitle().contains(pageTitle));
     }
-    public static Boolean isHTAccessNeeded(WebDriver driver, String targetUrl)
-    {
+    public static Boolean isHTAccessNeeded(WebDriver driver, String targetUrl) throws InterruptedException {
+        Thread.sleep(5000);
         Boolean urlIsExisted = false;
         if(driver.getCurrentUrl().contains(targetUrl))
             urlIsExisted = true;
