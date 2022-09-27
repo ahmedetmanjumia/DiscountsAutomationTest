@@ -66,11 +66,20 @@ public class jumiaPayBusinessPage extends pageBase{
         //actions.keyDown(Keys.CONTROL).sendKeys(Keys.).build().perform();
         //System.out.println("loginAsJumiaEmployee Finished");
     }
-    public void login(WebDriver driver, WebDriverWait wait, Actions actions, String email, String verificationCode, String userName, String password, int tabIndex) throws InterruptedException {
+    public void login(WebDriver driver, WebDriverWait wait, Actions actions, String email, String verificationCode, String userName, String password, int tabIndex, String domain) throws InterruptedException {
+        Thread.sleep(3000);
+        if(domain == "ci")
+        {
+            String url = driver.getCurrentUrl();
+            if(!url.contains("/en")) {
+                url += "/en";
+                driver.navigate().to(url);
+            }
+        }
         clickOnButton(loginButtonCI, wait, actions);
         writeTextAndEnter(loginEmailTextBox, wait, email);
         writeTextAndEnter(loginPasswordTextBox, wait, email);
-        Thread.sleep(5000);
+        Thread.sleep(8000);
         //wait.until(ExpectedConditions.invisibilityOf(loginPasswordTextBox));
         Boolean isHtLoginNeeded = isHTAccessNeeded(driver, "https://app-business-staging-pay.jumia.");
         System.out.println("Is HTAccess needed? "+isHtLoginNeeded);

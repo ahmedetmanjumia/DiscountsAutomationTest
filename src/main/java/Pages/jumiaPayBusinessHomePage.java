@@ -53,8 +53,7 @@ public class jumiaPayBusinessHomePage extends pageBase{
         Assert.assertEquals(actualShopKey, shopKey);
         return shopKey;
     }
-    public void createSingleCredit(WebDriverWait wait, Actions actions, String creditWalletName, WebDriver driver, String singleCreditName, String singleCreditCustomerEmail, String amount, String description)
-    {
+    public void createSingleCredit(WebDriverWait wait, Actions actions, String creditWalletName, WebDriver driver, String singleCreditName, String singleCreditCustomerEmail, String amount, String description) throws InterruptedException {
         moveAndClick(mrpCreditsDropDownList, actions);
         String targetMRPCreditXPath = "//div[@class='v-list-item__title'][contains(.,'"+creditWalletName+"')]";
         targetMRPCredit = driver.findElement(By.xpath(targetMRPCreditXPath));
@@ -71,7 +70,10 @@ public class jumiaPayBusinessHomePage extends pageBase{
         clickInsidePopupButton(submitCreditPopup, submitCreditButton, wait, actions);
 
         //Ensure that Single Credit saved
-        String singleCreditNameXpath = "//span[contains(.,'"+singleCreditName+"')]";
+        //String singleCreditNameXpath = "//span[contains(.,'"+singleCreditName+"')]";
+        Thread.sleep(5000);
+        driver.navigate().refresh();
+        String singleCreditNameXpath = "(//span[@data-cy='item-value'][contains(.,'"+singleCreditName+"')])[1]";
         savedSingleCredit = driver.findElement(By.xpath(singleCreditNameXpath));
         Assert.assertEquals(savedSingleCredit.getText(), singleCreditName);
     }
@@ -80,7 +82,7 @@ public class jumiaPayBusinessHomePage extends pageBase{
         scrollToElement(signOutButton, driver);
         signOutButton.click();
     }
-    public void approveOrDeclineSingleCredit(String approvalStatus, WebDriverWait wait, Actions actions, String creditWalletName, WebDriver driver, String singleCreditName)
+    public void openCreatedSingleCredit(Actions actions, String creditWalletName, WebDriver driver, String singleCreditName)
     {
         moveAndClick(mrpCreditsDropDownList, actions);
         String targetMRPCreditXPath = "//div[@class='v-list-item__title'][contains(.,'"+creditWalletName+"')]";
