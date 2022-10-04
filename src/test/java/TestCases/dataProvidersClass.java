@@ -41,4 +41,10 @@ public class dataProvidersClass {
         excelReader er = new excelReader();
         return er.getExcelData("B2CData.xlsx",0);
     }
+    @DataProvider(name = "createBulkCreditData")
+    public Object [][] readcreateBulkCreditData() throws IOException
+    {
+        excelReader er = new excelReader();
+        return er.getExcelData("B2CData.xlsx",1);
+    }
 }

@@ -9,6 +9,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+
 public class jumiaPayBusinessHomePage extends pageBase{
     public jumiaPayBusinessHomePage(WebDriver driver) {
         super(driver);
@@ -26,6 +31,8 @@ public class jumiaPayBusinessHomePage extends pageBase{
     WebElement mrpCreditsDropDownList;
     @FindBy(xpath = "(//span[contains(.,'Create single credit')])[2]")
     WebElement createSingleCreditButton;
+    @FindBy(xpath = "(//span[contains(.,'Create bulk credit')])[2]")
+    WebElement createBulkCreditButton;
     @FindBy(xpath = "/html/body/div/div[1]/main/div/div[2]/div/div[2]/form/div[1]/div/div/div/div[1]/div/input")
     WebElement singleCreditNameTextBox;
     @FindBy(xpath = "/html/body/div/div/main/div/div[2]/div/div[2]/form/div[2]/div/div/div/div[1]/div/input")
@@ -43,6 +50,15 @@ public class jumiaPayBusinessHomePage extends pageBase{
     @FindBy(xpath = "(//div[contains(.,'Sign Out')])[6]")
     WebElement signOutButton;
     WebElement targetMRPCredit, savedSingleCredit;
+    @FindBy(xpath = "(//input[contains(@type,'text')])[1]")
+    WebElement bulkCreditNameTextBox;
+    @FindBy(xpath = "//textarea[contains(@rows,'5')]")
+    WebElement bulkDescriptionTextArea;
+    @FindBy(xpath = "//div[contains(@class,'v-file-input__text')]")
+    WebElement uploadFilesTextBox;
+    @FindBy(xpath = "//span[@class='v-btn__content'][contains(.,'Confirm')]")
+    WebElement bulkConfirmButton;
+
 
     public String copyShopKey(WebDriverWait wait, Actions actions, String actualShopKey)
     {
@@ -76,6 +92,50 @@ public class jumiaPayBusinessHomePage extends pageBase{
         String singleCreditNameXpath = "(//span[@data-cy='item-value'][contains(.,'"+singleCreditName+"')])[1]";
         savedSingleCredit = driver.findElement(By.xpath(singleCreditNameXpath));
         Assert.assertEquals(savedSingleCredit.getText(), singleCreditName);
+    }
+    public void createBulkCredit(WebDriverWait wait, Actions actions, String creditWalletName, WebDriver driver, String bulkCreditName, String description) throws InterruptedException, AWTException {
+        moveAndClick(mrpCreditsDropDownList, actions);
+        String targetMRPCreditXPath = "//div[@class='v-list-item__title'][contains(.,'" + creditWalletName + "')]";
+        targetMRPCredit = driver.findElement(By.xpath(targetMRPCreditXPath));
+        moveAndClick(targetMRPCredit, actions);
+        wait.until(ExpectedConditions.elementToBeClickable(createBulkCreditButton));
+        moveAndClick(createBulkCreditButton, actions);
+        // create Bulk credit
+        writeText(bulkCreditNameTextBox, wait, bulkCreditName);
+        writeText(bulkDescriptionTextArea, wait, description);
+
+        // choose the Bulk Credit File
+        String imgPath = System.getProperty("user.dir")+"/src/test/java/TestData/bulk-credits-template.csv";
+        System.out.println("Image Path: "+imgPath);
+        //uploadFilesTextBox.sendKeys(imgPath);
+
+        moveAndClick(uploadFilesTextBox, actions);
+        Robot robot = new Robot(); // to deal with the selection screen
+
+        // Copy the csv file path
+        StringSelection selection = new StringSelection(imgPath);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard(); // to get the last copied value at the clipboard
+        clipboard.setContents(selection, null);
+
+        // Enter csv File name
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        robot.delay(2000);
+
+        // CTRL + V to paste the csv file name
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.delay(2000);
+
+        // Click on Enter button to upload file
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        robot.delay(2000);
+
+        Thread.sleep(3000);
+        moveAndClick(bulkConfirmButton, actions);
     }
     public void signOut(WebDriver driver)
     {

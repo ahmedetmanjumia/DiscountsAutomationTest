@@ -45,7 +45,6 @@ public class singleCreditApprovalPage extends pageBase{
     @FindBy(xpath = "//span[contains(.,'Single credit successfully submitted')]")
     WebElement submitAlert;
     WebElement updatedSingleCreditNameLabel;
-    //@FindBy(xpath = "//svg[contains(@class,'v-icon__svg')]")
     @FindBy(xpath = "(//span[contains(@class,'v-btn__content')])[2]")
     WebElement backButton;
 

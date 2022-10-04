@@ -80,7 +80,6 @@ public class jumiaPayBusinessPage extends pageBase{
         writeTextAndEnter(loginEmailTextBox, wait, email);
         writeTextAndEnter(loginPasswordTextBox, wait, email);
         Thread.sleep(8000);
-        //wait.until(ExpectedConditions.invisibilityOf(loginPasswordTextBox));
         Boolean isHtLoginNeeded = isHTAccessNeeded(driver, "https://app-business-staging-pay.jumia.");
         System.out.println("Is HTAccess needed? "+isHtLoginNeeded);
         if(isHtLoginNeeded == false)
